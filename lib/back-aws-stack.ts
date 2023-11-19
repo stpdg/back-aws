@@ -14,9 +14,14 @@ export class BackAwsStack extends cdk.Stack {
       entry: 'src/lambdas/getProductList.ts',
     });
 
+    const getProductsById = new NodejsFunction(this, 'GetProductsById', {
+      functionName: 'getProductsById',
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: 'src/lambdas/getProductById.ts',
+    });
 
     const api = new apigateway.RestApi(this, 'products-api', {
-      restApiName: 'Prod',
+      restApiName: 'api',
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
@@ -26,6 +31,7 @@ export class BackAwsStack extends cdk.Stack {
     });
 
     const productsApi = api.root.addResource('products');
+    const productIdApi = productsApi.addResource('{productId}');
 
 
     productsApi.addMethod(
@@ -33,5 +39,9 @@ export class BackAwsStack extends cdk.Stack {
       new apigateway.LambdaIntegration(getProductsList)
     );
 
+    productIdApi.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getProductsById)
+    );
   }
 }
