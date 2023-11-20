@@ -1,15 +1,8 @@
  type JSON = string | number | boolean | { [x: string]: JSON } | Array<JSON>;
 
-type Headers = Record<string, string | boolean>; 
 
-export interface Response {
-  statusCode: number;
-  headers: Headers;
-  body: string;
-  
-}
 
-export const buildResponse = (statusCode: number, body: JSON): Response => {
+export const buildResponse = (statusCode: number, body: JSON): any => {
   return {
     statusCode,
     headers: {

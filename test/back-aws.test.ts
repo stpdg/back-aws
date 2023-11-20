@@ -1,7 +1,7 @@
 import { buildResponse } from '../src/utils/utils';
-import { handlerAllProducts } from '../src/lambdas/getProductList';
-import { handlerProductById } from '../src/lambdas/getProductById';
-import { products } from '../src/mocks/data';
+import {handler as  handlerAllProducts } from '../src/lambdas/getProductList';
+import {handler as handlerProductById } from '../src/lambdas/getProductById';
+import { mockProducts } from '../src/mocks/data';
 
 
 describe('test api products', () => {
@@ -12,7 +12,7 @@ describe('test api products', () => {
       },
     };
     const productItem = await handlerProductById(expectedResult);
-    expect(productItem).toEqual(buildResponse(200, products[0]));
+    expect(productItem).toEqual(buildResponse(200, mockProducts[0]));
   });
 
   it('should return error Product not found', async () => {
@@ -30,6 +30,6 @@ describe('test api products', () => {
   });
   it('should return array of products', async () => {
     const productList = await handlerAllProducts();
-    expect(productList).toEqual(buildResponse(200, products));
+    expect(productList).toEqual(buildResponse(200, mockProducts));
   });
 });
